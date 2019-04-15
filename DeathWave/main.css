@@ -1,7 +1,11 @@
+.body {
+  background-image: url(./img/15670.gif);
+  background-size: cover;
+}
 .poster {
-    background-color: black;
+    /*background-color: black;
     border-radius: 6rem;
-    box-shadow: 0 0 6rem -.5rem rgb(133, 18, 123);
+    box-shadow: 0 0 6rem -.5rem rgb(133, 18, 123); */
     box-sizing: border-box;
     display: grid;
     font-family: Arial, sans-serif;
@@ -16,7 +20,6 @@
     white-space: nowrap;
     width: 33rem;
   }
-  
   .left {
     animation: slideleft 3s linear;
     color: white;
@@ -32,7 +35,6 @@
     transform: skewY(30deg);
     transform-origin: top left;
   }
-  
   .last {
     color: white;
     font-size: 1.6rem;
@@ -45,22 +47,16 @@
   .last > div {
     animation: slidebottom 3s linear;
   }
-  
   @keyframes slideleft {
     0% { text-indent: -23.25rem; }
     100% { text-indent: 0; }
   }
-  
   @keyframes slidebottom {
     0% { text-indent: -18rem; }
     25% { text-indent: -18rem; }
     100% { text-indent: 0; }
   }
-  
   @keyframes slideright {
     0% { text-indent: -28.5rem; }
     100% { text-indent: -5.25; }
   }
-.kys {
-  background-image: url(../img/x9PrZKYSJy4.jpg) repeat-y;
-}
