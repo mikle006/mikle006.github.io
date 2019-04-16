@@ -1,6 +1,5 @@
 .body {
-  background-image: white url("../img/15670.gif");
-  background-size: cover;
+  background: url("../img/15670.gif") cover;
 }
 .poster {
     /*background-color: black;
