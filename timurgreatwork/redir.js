@@ -22,7 +22,7 @@ function createRain() {
 
 //Это функция перемещения по клику на файл, куда тебе надо. В скобках пропишешь путь до нужного сам.
 document.onclick = function(){
-    window.location.replace('replace.html');
+    window.location.replace('https://mikle006.github.io/DeathWave/main.html');
 }
 // Make it rain
 createRain();
