@@ -1,5 +1,4 @@
 html, body {
-  width: 99.5%;
   height: 100%;
   background-color: black;
 }
@@ -44,7 +43,7 @@ span:after {
 }
 .l3 span:after {
   -webkit-animation-name: pulse;
-  -webkit-animation-duration: 3s;
+  -webkit-animation-duration: 2.3s;
   -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-iteration-count: infinite;
 }
