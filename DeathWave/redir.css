@@ -1,7 +1,6 @@
-html,
-body {
-  bacground-color: #000000;
+.govno {
+  background-color: #000000;
   color: #0AFB00;
-  white-space: pre-warp;
+  white-space: break-spaces;
   font-family: sans-serif;
 }
