@@ -17,39 +17,39 @@ span {
 }
 @-webkit-keyframes anim {
 	0% {
-		color: black;
+		color: lightseagreen;
 		transform: rotate(0deg);
 	}
 	20% {
-		color: blue;
+		color: lightslategrey;
 	}
 	40% {
-		color: green;
+		color: lightcoral;
 	}
 	60% {
-		color: orange;
+		color: lightblue;
 	}
 	100% {
-		color: red;
+		color: lightgreen;
 		transform: rotate(360deg);
 	}
 }
 @keyframes anim {
 	0% {
-		color: black;
+		color: lightseagreen;
 		transform: rotate(0deg);
 	}
 	20% {
-		color: blue;
+		color: lightslategrey;
 	}
 	40% {
-		color: green;
+		color: lightcoral;
 	}
 	60% {
-		color: orange;
+		color: lightblue;
 	}
 	100% {
-		color: red;
+		color: lightgreen;
 		transform: rotate(360deg);
 	}
 }
