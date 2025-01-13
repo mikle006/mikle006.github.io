@@ -3,6 +3,9 @@
 	font-size: 3em;
 	padding: 0 0.9em;
 }
+h5 {
+    letter-spacing: 1rem;
+}
 span {
 	font-size: 4em;
 	-webkit-animation: 2s anim infinite alternate;
