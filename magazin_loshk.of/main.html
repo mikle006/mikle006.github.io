@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>С Днём Рождения! 🎂</title>
+    <style>
+        /* --- СБРОС И БАЗА --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            background: #fce4ec; /* fallback */
+        }
+
+        /* --- ГРАДИЕНТНЫЙ ФОН С ПЕРЕЛИВАНИЕМ --- */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8cdda, #f5b8c9, #f0a3b8, #f8cdda);
+            background-size: 300% 300%;
+            animation: gradientShift 8s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- РАЗМЫТЫЕ ЭМОДЗИ НА ФОНЕ (ПАРАЛЛАКС) --- */
+        .emoji-cloud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none; /* чтобы не мешали кликам */
+            overflow: hidden;
+        }
+
+        .emoji-item {
+            position: absolute;
+            font-size: 2.8rem;
+            filter: blur(3px) brightness(1.1);
+            opacity: 0.25;
+            user-select: none;
+            animation: floatEmoji 12s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        /* разные задержки и траектории */
+        .emoji-item:nth-child(1) { top: 12%; left: 5%; animation-duration: 14s; animation-delay: 0s; }
+        .emoji-item:nth-child(2) { top: 25%; right: 8%; animation-duration: 16s; animation-delay: 1.5s; }
+        .emoji-item:nth-child(3) { bottom: 30%; left: 10%; animation-duration: 18s; animation-delay: 0.7s; }
+        .emoji-item:nth-child(4) { bottom: 15%; right: 5%; animation-duration: 15s; animation-delay: 2.2s; }
+        .emoji-item:nth-child(5) { top: 55%; left: 20%; animation-duration: 13s; animation-delay: 0.3s; }
+        .emoji-item:nth-child(6) { top: 70%; right: 20%; animation-duration: 17s; animation-delay: 1.8s; }
+
+        @keyframes floatEmoji {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(20px, -30px) scale(1.1) rotate(8deg); }
+            66% { transform: translate(-15px, 20px) scale(0.9) rotate(-5deg); }
+            100% { transform: translate(10px, -10px) scale(1.05) rotate(3deg); }
+        }
+
+        /* --- ОСНОВНОЙ КОНТЕЙНЕР СТРАНИЦ (слайдер) --- */
+        .pages-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            touch-action: pan-y; /* для вертикального свайпа, но мы используем клик */
+        }
+
+        /* каждая страница — занимает весь экран, но видна только активная */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none; /* чтобы не мешать клику, пока не активна */
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- БАБЛЫ ДЛЯ ТЕКСТА (с градиентом и переливанием) --- */
+        .bubble {
+            max-width: 90%;
+            width: auto;
+            padding: 1.8rem 2.2rem;
+            border-radius: 60px 60px 60px 20px;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(255, 182, 193, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bubble:active {
+            transform: scale(0.97);
+        }
+
+        /* ГРАДИЕНТНЫЙ ТЕКСТ С ПЕРЕЛИВАНИЕМ */
+        .gradient-text {
+            font-size: clamp(2.2rem, 10vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, #d6336c, #f06292, #ec407a, #d6336c);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textGradientShift 5s ease-in-out infinite alternate;
+            text-shadow: 0 4px 20px rgba(214, 51, 108, 0.15);
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        @keyframes textGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* дополнительный стиль для второго бабла (можно поменять форму) */
+        .bubble-alt {
+            border-radius: 60px 60px 20px 60px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        /* --- ПОДСКАЗКА ДЛЯ КЛИКА (мигающая) --- */
+        .hint {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(214, 51, 108, 0.6);
+            letter-spacing: 2px;
+            font-weight: 400;
+            animation: pulseHint 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes pulseHint {
+            0% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 0.9; transform: translateY(-5px); }
+            100% { opacity: 0.3; transform: translateY(0); }
+        }
+
+        /* --- АДАПТИВ ДЛЯ МАЛЕНЬКИХ ЭКРАНОВ --- */
+        @media (max-width: 480px) {
+            .bubble {
+                padding: 1.4rem 1.6rem;
+                border-radius: 40px 40px 40px 12px;
+            }
+            .bubble-alt {
+                border-radius: 40px 40px 12px 40px;
+            }
+            .gradient-text {
+                font-size: clamp(1.8rem, 9vw, 2.8rem);
+            }
+            .emoji-item {
+                font-size: 2rem;
+                filter: blur(3px);
+                opacity: 0.2;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .bubble {
+                padding: 1rem 1.2rem;
+            }
+            .gradient-text {
+                font-size: clamp(1.5rem, 7vw, 2.2rem);
+            }
+        }
+
+        /* чтобы контент не прилипал к краям */
+        .page-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px 0;
+        }
+
+        /* отступ между баблами, если их несколько на странице */
+        .page .bubble + .bubble {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ГРАДИЕНТНЫЙ ФОН -->
+    <div class="gradient-bg"></div>
+
+    <!-- ОБЛАКО РАЗМЫТЫХ ЭМОДЗИ -->
+    <div class="emoji-cloud">
+        <span class="emoji-item">🌸</span>
+        <span class="emoji-item">🌷</span>
+        <span class="emoji-item">🦋</span>
+        <span class="emoji-item">🍬</span>
+        <span class="emoji-item">✨</span>
+        <span class="emoji-item">🧁</span>
+    </div>
+
+    <!-- КОНТЕЙНЕР СТРАНИЦ -->
+    <div class="pages-wrapper" id="pagesWrapper">
+
+        <!-- СТРАНИЦА 1 -->
+        <div class="page active" data-index="0">
+            <div class="page-content">
+                <div class="bubble">
+                    <span class="gradient-text">✨ С днём рождения!</span>
+                </div>
+                <div class="bubble bubble-alt">
+                    <span class="gradient-text">Ты — моя радость 🌸</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА 2 -->
+        <div class="page" data-index="1">
+            <div class="page-content">
+                <div class="bubble">
+                    <span class="gradient-text">🌷 Ты самая нежная</span>
+                </div>
+                <div class="bubble bubble-alt">
+                    <span class="gradient-text">и самая красивая 💗</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА 3 -->
+        <div class="page" data-index="2">
+            <div class="page-content">
+                <div class="bubble">
+                    <span class="gradient-text">🦋 Пусть сбываются мечты</span>
+                </div>
+                <div class="bubble bubble-alt">
+                    <span class="gradient-text">и мир улыбается тебе ✨</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- СТРАНИЦА 4 (финал) -->
+        <div class="page" data-index="3">
+            <div class="page-content">
+                <div class="bubble">
+                    <span class="gradient-text">🎂 С любовью, навсегда</span>
+                </div>
+                <div class="bubble bubble-alt">
+                    <span class="gradient-text">❤️ Твой самый родной человек</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПОДСКАЗКА -->
+        <div class="hint">✦ нажми, чтобы листать ✦</div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const pages = document.querySelectorAll('.page');
+            const wrapper = document.getElementById('pagesWrapper');
+            let currentIndex = 0;
+            const totalPages = pages.length;
+            let isTransitioning = false;
+
+            // Функция перехода к странице по индексу
+            function goToPage(index) {
+                if (isTransitioning) return;
+                if (index < 0 || index >= totalPages) return;
+                if (index === currentIndex) return;
+
+                isTransitioning = true;
+
+                // Убираем активный класс у текущей страницы
+                pages[currentIndex].classList.remove('active');
+
+                // Добавляем активный класс новой странице
+                pages[index].classList.add('active');
+
+                // Обновляем индекс
+                currentIndex = index;
+
+                // Разблокируем через небольшую задержку (чтобы анимация успела проиграться)
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 400);
+            }
+
+            // Обработчик клика по всей области (кроме подсказки и эмодзи, но они pointer-events: none)
+            function handleClick(e) {
+                // Игнорируем клики по подсказке (на всякий случай)
+                if (e.target.closest('.hint')) return;
+
+                // Определяем следующую страницу (циклично: после последней — первая)
+                const nextIndex = (currentIndex + 1) % totalPages;
+                goToPage(nextIndex);
+            }
+
+            // Обработчик свайпа вверх/вниз для мобильных (дополнительно)
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            function handleTouchStart(e) {
+                touchStartY = e.changedTouches[0].screenY;
+            }
+
+            function handleTouchEnd(e) {
+                touchEndY = e.changedTouches[0].screenY;
+                const diff = touchStartY - touchEndY;
+                // Если свайп вверх или вниз достаточно длинный (более 40px)
+                if (Math.abs(diff) > 40) {
+                    const nextIndex = (currentIndex + 1) % totalPages;
+                    goToPage(nextIndex);
+                }
+            }
+
+            // Вешаем обработчики
+            wrapper.addEventListener('click', handleClick);
+            wrapper.addEventListener('touchstart', handleTouchStart, { passive: true });
+            wrapper.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+            // Дополнительно: клавиши вправо / пробел для десктопа
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (currentIndex + 1) % totalPages;
+                    goToPage(nextIndex);
+                }
+            });
+
+            console.log('🎉 Поздравляю! Сайт готов к наполнению текстом.');
+        })();
+    </script>
+
+</body>
+</html>
